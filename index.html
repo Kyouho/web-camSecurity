@@ -20,7 +20,7 @@
           <a href="#">
             <img src="images/isatis.png" alt="Logo" style="height: 35px;">
           </a>
-         </li>
+        </li>
       </ul>
     </nav>
 
@@ -28,131 +28,186 @@
 
   <section class="container">
 
-    <div class ="Gri">1</div>
+    <div class="Gri" id="camera-container">
+
+      <img class="camera" id="camera" src=""></img>
+      <div class="camera-info">
+        <h3>Camara: ESP32 CAM MB</h3>
+        <div class="info-item" id="id">
+          <p>IP actual: </p>
+        </div>
+        <div class="info-item" id="schedule">
+          <p>Horario: </p>
+        </div>
+        <div class="info-item" id="time">
+          <p>Hora de encendido: </p>
+        </div>
+        <div class="info-item" id="last">
+          <p>Ultima detección de movimiento: </p>
+        </div>
+      </div>
+
+    </div>
+    </div>
+    </div>
     <div class="Gri">
-  <div class="notif-header">
-    <label style="font-size: 1.1em;">Notificaciones</label>
+      <div class="notif-header">
+        <label style="font-size: 1.1em;">Notificaciones</label>
 
-    <button class="HorarioBtn">⏱ Horario</button>
-  </div>
+        <button class="HorarioBtn">⏱ Horario</button>
+      </div>
 
-  <div id="notificaciones"></div>
-</div>
+      <div id="notificaciones"></div>
+    </div>
 
 
-    <div class ="Gri">
+    <div class="Gri">
       <span class="H_title">
         <label style="font-size: 1.1em;">Historial de capturas</label>
         <a href="images.html">
           <button class="btn-ver-todas">Ver todas</button>
         </a>
-        
+
       </span>
 
       <div class="S_img">
-      <div class="H_img" id="cap1">Cap 1</div>
-      <div class="H_img" id="cap2">Cap 2</div>
+        <div class="H_img" id="cap1">Cap 1</div>
+        <div class="H_img" id="cap2">Cap 2</div>
 
       </div>
     </div>
 
     <div class="Gri">
-  <label style="font-size: 1.1em;">Configuración</label> 
-  <br>
+      <label style="font-size: 1.1em;">Configuración</label>
+      <br>
 
-  <span>
-    <label>Nombre de la red:</label>
-    <input id="ssid" type="text" placeholder="Nombre de la red" maxlength="32">
-  </span>
+      <span>
+        <label>Nombre de la red:</label>
+        <input id="ssid" type="text" placeholder="Nombre de la red" maxlength="32">
+      </span>
 
-  <br>
+      <br>
 
-  <span>
-    <label>Contraseña:</label>
-    <input id="password" type="password" placeholder="Contraseña" maxlength="63">
-  </span>
+      <span>
+        <label>Contraseña:</label>
+        <input id="password" type="password" placeholder="Contraseña" maxlength="63">
+      </span>
 
-  <br>
+      <br>
 
-  <span>
-    <button class="btn-config" onclick="reiniciarConfig()">Reiniciar</button>
-    <button class="btn-config" onclick="enviarConfig()">Enviar</button>
-  </span>
-</div>
+      <span>
+        <button class="btn-config" onclick="enviarConfig()">Enviar</button>
+      </span>
+    </div>
 
-<div class="Gri">
-  <label style="font-size: 1.1em;">Monitor Serial</label><br>
-  <div id="serial-box" style="height: 90%; overflow-y: auto; padding: 5px;"></div>
-</div>
+    <div class="Gri">
+      <label style="font-size: 1.1em;">Monitor Serial</label><br>
+      <div id="serial-box" style="height: 90%; overflow-y: auto; padding: 5px;"></div>
+    </div>
 
 
   </section>
 
+  <script src="serial.js"></script>
+
   <script>
-/* ===== VALIDACIÓN DE CAMPOS ===== */
+    /* ===== VALIDACIÓN DE CAMPOS ===== */
 
-function validarConfig() {
-    const ssid = document.getElementById("ssid").value.trim();
-    const pass = document.getElementById("password").value.trim();
+    function validarConfig() {
+      const ssid = document.getElementById("ssid").value.trim();
+      const pass = document.getElementById("password").value.trim();
 
-    // SSID debe tener letras, números y algunos símbolos comunes
-    const ssidRegex = /^[A-Za-z0-9 _.\-]{3,32}$/;
+      // SSID debe tener letras, números y algunos símbolos comunes
+      const ssidRegex = /^[A-Za-z0-9 _.\-]{3,32}$/;
 
-    if (!ssidRegex.test(ssid)) {
+      if (!ssidRegex.test(ssid)) {
         alert("❌ Nombre de red inválido.\nDebe tener entre 3 y 32 caracteres y solo usar letras, números y . _ -");
         return false;
-    }
+      }
 
-    // Contraseña mínima de 8
-    if (pass.length < 8) {
+      // Contraseña mínima de 8
+      if (pass.length < 8) {
         alert("❌ La contraseña debe tener mínimo 8 caracteres.");
         return false;
-    }
+      }
 
-    // Máximo permitido por estándar WPA2
-    if (pass.length > 63) {
+      // Máximo permitido por estándar WPA2
+      if (pass.length > 63) {
         alert("❌ La contraseña no puede exceder 63 caracteres.");
         return false;
-    }
+      }
 
-    // No emojis
-    if (/[\u{1F600}-\u{1F6FF}]/u.test(pass)) {
+      // No emojis
+      if (/[\u{1F600}-\u{1F6FF}]/u.test(pass)) {
         alert("❌ La contraseña no puede contener emojis.");
         return false;
-    }
+      }
 
-    // ASCII estándar
-    if (!/^[\x20-\x7E]+$/.test(pass)) {
+      // ASCII estándar
+      if (!/^[\x20-\x7E]+$/.test(pass)) {
         alert("❌ La contraseña contiene caracteres no permitidos.");
         return false;
+      }
+
+      return true;
     }
 
-    return true;
-}
+    /* ===== ACCIONES DE BOTONES ===== */
 
-/* ===== ACCIONES DE BOTONES ===== */
 
-function reiniciarConfig() {
-    document.getElementById("ssid").value = "";
-    document.getElementById("password").value = "";
-}
 
-function enviarConfig() {
-    if (!validarConfig()) return;
 
-    const ssid = document.getElementById("ssid").value.trim();
-    const pass = document.getElementById("password").value.trim();
+    async function reiniciarConfig() {
+      document.getElementById("ssid").value = "";
+      document.getElementById("password").value = "";
 
-    alert("✔ Configuración enviada:\nSSID: " + ssid + "\nContraseña: " + pass);
-}
-</script>
-  
-<script src="serial.js"></script>
-<script>
-const API_URL_IMG = "https://api-camara.vercel.app/get/img";
+      const camera = document.getElementById('camera')
 
-async function cargarUltimasCapturas() {
-    try {
+      camera.src = ""
+
+
+      const res = await fetch(`http://${general_ip}/resetwifi`)
+      const text = await res.text()
+      console.log("Respuesta:", text)
+
+      if (text) {
+        camera.src = `http://${general_ip}/stream`
+      }
+
+    }
+
+    async function enviarConfig() {
+      if (!validarConfig()) return;
+
+
+      const ssid = document.getElementById("ssid").value;
+      const pass = document.getElementById("password").value;
+
+      const camera = document.getElementById('camera')
+      camera.src = ""
+
+      const res = fetch(`http://${general_ip}/setwifi`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `ssid=${ssid}&pass=${pass}`
+      })
+      const text = await res.text()
+
+      document.getElementById("ssid").value = "";
+      document.getElementById("password").value = "";
+
+      if (text) {
+        camera.src = `http://${general_ip}/stream`
+      }
+    }
+  </script>
+
+
+  <script>
+    const API_URL_IMG = "https://api-camara.vercel.app/get/img";
+
+    async function cargarUltimasCapturas() {
+      try {
         const res = await fetch(API_URL_IMG, { cache: "no-store" });
         const data = await res.json();
 
@@ -163,87 +218,133 @@ async function cargarUltimasCapturas() {
 
         // Cap 1
         if (ultimas[0]) {
-            document.getElementById("cap1").innerHTML =
-                `<img src="data:image/jpeg;base64,${ultimas[0].content}" 
+          document.getElementById("cap1").innerHTML =
+            `<img src="data:image/jpeg;base64,${ultimas[0].content}" 
                       style="width:100%; height:100%; object-fit:cover; border-radius:12px;">`;
+
+          const image_label = document.getElementById('last')
+          const old_image = document.getElementById("image-content")
+          const old_image2 = document.getElementById("image-content2")
+
+          if (old_image) old_image.remove()
+          if (old_image2) old_image2.remove()
+
+          const line_image = document.createElement("p");
+          const line_image2 = document.createElement("p");
+          line_image.textContent = ultimas[0].time
+          line_image2.textContent = ultimas[0].date
+          line_image.id = "image-content"
+          line_image2.id = "image-content2"
+          image_label.appendChild(line_image)
+          image_label.appendChild(line_image2)
         }
 
         // Cap 2
         if (ultimas[1]) {
-            document.getElementById("cap2").innerHTML =
-                `<img src="data:image/jpeg;base64,${ultimas[1].content}" 
+          document.getElementById("cap2").innerHTML =
+            `<img src="data:image/jpeg;base64,${ultimas[1].content}" 
                       style="width:100%; height:100%; object-fit:cover; border-radius:12px;">`;
         }
 
-    } catch (err) {
+      } catch (err) {
         console.error("Error cargando últimas capturas:", err);
+      }
+
     }
-}
 
-// Cargar de inmediato
-cargarUltimasCapturas();
 
-</script>
 
-<!-- Modal de horario -->
-<div id="modalHorario" class="modal-overlay">
-  <div class="modal-content horario-modal">
+    document.addEventListener("DOMContentLoaded", () => {
+      cargarUltimasCapturas()
+      setInterval(cargarUltimasCapturas, 15000);
+    })
 
-    <span id="closeModalHorario" class="modal-close">&times;</span>
+  </script>
 
-    <h2>Configurar Horario de Activación</h2>
+  <!-- Modal de horario -->
+  <div id="modalHorario" class="modal-overlay">
+    <div class="modal-content horario-modal">
 
-    <label>Hora de inicio</label>
-    <input type="time" id="horaInicio" class="input-horario">
+      <span id="closeModalHorario" class="modal-close">&times;</span>
 
-    <label>Hora final</label>
-    <input type="time" id="horaFin" class="input-horario">
+      <h2>Configurar Horario de Activación</h2>
 
-    <p class="hint-horario">
-      La cámara estará activa entre la hora de inicio y la hora final.
-    </p>
+      <label>Hora de inicio</label>
+      <input type="time" id="horaInicio" class="input-horario">
 
-    <button id="guardarHorario" class="btn-horario">Guardar horario</button>
+      <label>Hora final</label>
+      <input type="time" id="horaFin" class="input-horario">
 
-    <p id="mensajeHorario" class="saved-badge" style="display:none;">
-      ✔ Horario guardado correctamente
-    </p>
+      <p class="hint-horario">
+        La cámara estará activa entre la hora de inicio y la hora final.
+      </p>
 
+      <button id="guardarHorario" class="btn-horario">Guardar horario</button>
+
+      <p id="mensajeHorario" class="saved-badge" style="display:none;">
+        ✔ Horario guardado correctamente
+      </p>
+
+    </div>
   </div>
-</div>
 
 
-<script>
-document.querySelector(".HorarioBtn").addEventListener("click", () => {
-    document.getElementById("modalHorario").style.display = "flex";
-});
+  <script>
+    document.querySelector(".HorarioBtn").addEventListener("click", () => {
+      document.getElementById("modalHorario").style.display = "flex";
+    });
 
-// Cerrar modal
-document.getElementById("closeModalHorario").addEventListener("click", () => {
-    document.getElementById("modalHorario").style.display = "none";
-});
+    // Cerrar modal
+    document.getElementById("closeModalHorario").addEventListener("click", () => {
+      document.getElementById("modalHorario").style.display = "none";
+    });
 
-// Guardar horario
-document.getElementById("guardarHorario").addEventListener("click", () => {
-    const inicio = document.getElementById("horaInicio").value;
-    const fin = document.getElementById("horaFin").value;
+    // Guardar horario
+    document.getElementById("guardarHorario").addEventListener("click", async () => {
+      const inicio = document.getElementById("horaInicio").value;
+      const fin = document.getElementById("horaFin").value;
+      const camera = document.getElementById('camera')
+      camera.src = ""
 
-    if (!inicio || !fin) {
+      const [horaInicio, minInicio] = inicio.split(":")
+      const [horaFin, minFin] = fin.split(":")
+
+      const hInicio = parseInt(horaInicio)
+      const mInicio = parseInt(minInicio)
+      const hFin = parseInt(horaFin)
+      const mFin = parseInt(minFin)
+
+
+      if (!inicio || !fin) {
         alert("Debes seleccionar ambos horarios.");
         return;
-    }
+      }
 
-    // Aquí puedes hacer un fetch a tu API si quieres
-    // Ej: fetch("/save-horario", { method:"POST", body: JSON.stringify({inicio, fin}) })
+      console.log('hora:', hInicio, 'minuto:', mInicio, 'hora', hFin, 'minuto:', mFin)
 
-    document.getElementById("mensajeHorario").style.display = "block";
+      // Aquí puedes hacer un fetch a tu API si quieres
+      // Ej: fetch("/save-horario", { method:"POST", body: JSON.stringify({inicio, fin}) })
 
-    setTimeout(() => {
+      const res = fetch(`http://${general_ip}/setschedule`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `startHour=${hInicio}&startMinute=${mInicio}&endHour=${hFin}&endMinute=${mFin}`
+      })
+      const text = await res.text()
+
+      if(text){
+        alert(text)
+        camera.src = `http://${general_ip}/stream`
+      }
+
+      document.getElementById("mensajeHorario").style.display = "block";
+
+      setTimeout(() => {
         document.getElementById("mensajeHorario").style.display = "none";
         document.getElementById("modalHorario").style.display = "none";
-    }, 2000);
-});
-</script>
+      }, 2000);
+    });
+  </script>
 
 
 
