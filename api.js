@@ -67,7 +67,6 @@ const deleteByID = async (id) => {
 
     if (!res.ok) return
 
-    alert('Imagen borrada')
 }
 
 document.addEventListener("DOMContentLoaded", cargarImagenes);

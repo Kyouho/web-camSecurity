@@ -15,7 +15,7 @@
     <nav>
       <ul>
         <li><a>CamMonitor</a></li>
-        <li><a>✅Conectado</a></li>
+        <li><a id="connection">✅Conectado</a></li>
         <li>
           <a href="#">
             <img src="images/isatis.png" alt="Logo" style="height: 35px;">
@@ -59,7 +59,7 @@
         </div>
 
         <div id="notif-container" class="notif-container">
-          
+
         </div>
       </div>
 
@@ -118,11 +118,24 @@
 
   <script>
 
+    const camera = document.getElementById('camera')
+    const connection = document.getElementById('connection')
+
+    camera.onerror = () => {
+      console.log('falló')
+      connection.textContent = "⛔Desconectado"
+    }
+
+    camera.onload = () => {
+      console.log('conectado')
+      connection.textContent = "✅Conectado"
+    }
+
     let nNotis = 0
     let nIDs = []
 
     const addNoti = (array) => {
-      if(nIDs.includes(array[0].id)) return
+      if (nIDs.includes(array[0].id)) return
 
       const time = array[0].time
 
