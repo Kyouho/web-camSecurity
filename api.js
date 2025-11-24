@@ -38,7 +38,10 @@ async function cargarImagenes() {
             const boton = document.createElement("button")
             boton.textContent = "borrar"
             boton.classList.add('img-delete-button')
-            boton.addEventListener('click', () => deleteByID())
+            boton.addEventListener('click', () => {
+                deleteByID(imgObj.id)
+                box.remove()
+            })
 
             // Agregar elementos al div
             box.appendChild(img);
@@ -56,15 +59,13 @@ async function cargarImagenes() {
 
 const deleteByID = async (id) => {
     const res = await fetch('https://api-camara.vercel.app/delete-img/by-id', {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id })
     })
 
-    if (!res.ok) return
 
-    const box = document.getElementById("galeria")
-    box.innerHTML = ''
+    if (!res.ok) return
 
     alert('Imagen borrada')
 }
