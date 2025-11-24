@@ -64,7 +64,7 @@ body {
 
 }
 
-.camera-info{
+.camera-info {
   display: flex;
   flex-direction: column;
 }
@@ -604,4 +604,10 @@ button:hover {
 
 .camera {
   width: 52%;
+}
+
+.img-delete-button {
+  background-color: rgb(255, 0, 13);
+  color: white;
+  border-radius: 15px;
 }

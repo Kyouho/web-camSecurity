@@ -19,7 +19,8 @@ async function cargarImagenes() {
 
             // --- Crear contenedor para cada imagen ---
             const box = document.createElement("div");
-            box.classList.add("img-box"); 
+            box.classList.add("img-box");
+            box.id = "img-box"
             // puedes cambiar el nombre si quieres
 
             // --- Imagen ---
@@ -32,9 +33,17 @@ async function cargarImagenes() {
             fecha.classList.add("fecha-img");
             fecha.textContent = `${imgObj.date} ${imgObj.time}`;
 
+            //boton
+
+            const boton = document.createElement("button")
+            boton.textContent = "borrar"
+            boton.classList.add('img-delete-button')
+            boton.addEventListener('click', () => deleteByID())
+
             // Agregar elementos al div
             box.appendChild(img);
             box.appendChild(fecha);
+            box.appendChild(boton)
 
             // Agregar a la galería
             contenedor.appendChild(box);
@@ -45,4 +54,20 @@ async function cargarImagenes() {
     }
 }
 
+const deleteByID = async (id) => {
+    const res = await fetch('https://api-camara.vercel.app/delete-img/by-id', {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: JSON.stringify({ id })
+    })
+
+    if (!res.ok) return
+
+    const box = document.getElementById("galeria")
+    box.innerHTML = ''
+
+    alert('Imagen borrada')
+}
+
 document.addEventListener("DOMContentLoaded", cargarImagenes);
+

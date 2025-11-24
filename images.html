@@ -19,14 +19,14 @@
           <a href="#">
             <img src="images/isatis.png" alt="Logo" style="height: 35px;">
           </a>
-         </li>
+        </li>
       </ul>
     </nav>
   </header>
   <div class="bttons">
     <a href="index.html" class="btn regresar">⟵ Regresar</a>
-    <button class="btn borrar">🗑 Borrar datos</button>
-</div>
+    <button class="btn borrar" onclick="deleteAll()">🗑 Borrar datos</button>
+  </div>
 
 
   <section class="Fts">
@@ -35,6 +35,22 @@
 
   <!-- Archivo que cargará las imágenes automáticamente -->
   <script src="api.js"></script>
+
+  <script>
+    const deleteAll = async () => {
+      const res = await fetch('https://api-camara.vercel.app/delete/all-img')
+
+      if (!res.ok) return
+
+      const text = await res.text()
+
+      const box = document.getElementById("galeria")
+      box.innerHTML = ''
+
+      alert('Imagenes borradas')
+
+    }
+  </script>
 
 </body>
 
