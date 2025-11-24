@@ -181,9 +181,23 @@ input {
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
   .container {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  #camera-container {
+    grid-column: 1;
+    flex-direction: column;
+  }
+
+  #camera{
+    width: 100%;
+  }
+
+  #serial-box{
+    max-height: 300px;
   }
 }
 
