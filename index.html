@@ -148,7 +148,7 @@
       notification.classList.add('notification')
       text.textContent = content
       notification.appendChild(text)
-      container.appendChild(notification)
+      container.prepend(notification)
 
       nIDs.push(array[0].id)
       console.log(nIDs)
