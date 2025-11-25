@@ -15,7 +15,7 @@
     <nav>
       <ul>
         <li><a>CamMonitor</a></li>
-        <li><a id="connection">✅Conectado</a></li>
+        <li><a id="connection">⛔Desconectado</a></li>
         <li>
           <a href="#">
             <img src="images/isatis.png" alt="Logo" style="height: 35px;">
@@ -118,17 +118,21 @@
 
   <script>
 
+    let isConnected = false
+
     const camera = document.getElementById('camera')
     const connection = document.getElementById('connection')
 
     camera.onerror = () => {
       console.log('falló')
       connection.textContent = "⛔Desconectado"
+      isConnected = false
     }
 
     camera.onload = () => {
       console.log('conectado')
       connection.textContent = "✅Conectado"
+      isConnected = true
     }
 
     let nNotis = 0
@@ -220,7 +224,10 @@
 
     async function enviarConfig() {
       if (!validarConfig()) return;
-
+      if (!isConnected) {
+        alert('No estas en el mismo wifi que la camara!')
+        return
+      }
 
       const ssid = document.getElementById("ssid").value;
       const pass = document.getElementById("password").value;
@@ -347,6 +354,10 @@
 
     // Guardar horario
     document.getElementById("guardarHorario").addEventListener("click", async () => {
+      if (!isConnected) {
+        alert('No estas en el mismo wifi que la camara!')
+        return
+      }
       const inicio = document.getElementById("horaInicio").value;
       const fin = document.getElementById("horaFin").value;
       const camera = document.getElementById('camera')
