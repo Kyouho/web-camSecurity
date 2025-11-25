@@ -199,6 +199,11 @@ input {
   #serial-box{
     max-height: 300px;
   }
+
+  .bttons {
+    flex-direction: column;
+    background-color: black;
+  }
 }
 
 .Img_box {
@@ -256,7 +261,6 @@ input {
 
 .bttons {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   padding: 10px;
 }
@@ -667,5 +671,3 @@ button:hover {
   padding: 5px 15px;
 }
 
-.filter-options{
-}
