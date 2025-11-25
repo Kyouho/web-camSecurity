@@ -25,6 +25,20 @@
   </header>
   <div class="bttons">
     <a href="index.html" class="btn regresar">⟵ Regresar</a>
+    <select class="filter" id="filter">
+      <option class="filter-options">Todas</option>
+      <option class="filter-options">Ultimas 24 horas</option>
+      <option class="filter-options">Ultima semana</option>
+      <option class="filter-options">Ultimo mes</option>
+      <option class="filter-options">Ultimos 6 meses</option>
+    </select>
+
+    <form>
+      <input type="text" id="search-input"></input>
+      <button class="button" onclick="searchImg()" type="button">Buscar</button>
+    </form>
+
+
     <button class="btn borrar" onclick="deleteAll()">🗑 Borrar datos</button>
   </div>
 
@@ -37,6 +51,18 @@
   <script src="api.js"></script>
 
   <script>
+
+    const select = document.getElementById('filter')
+
+    select.onchange = () => {
+      const v = select.value
+      if (v === 'Todas') cargarImagenes()
+      if (v === 'Ultimas 24 horas') last24h()
+      if (v === 'Ultima semana') lastweek()
+      if (v === 'Ultimo mes') lastmonth()
+      if (v === 'Ultimos 6 meses') last6months()
+    }
+
     const deleteAll = async () => {
       const res = await fetch('https://api-camara.vercel.app/delete/all-img')
 

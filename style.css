@@ -662,3 +662,10 @@ button:hover {
   scrollbar-width: thin;
   scrollbar-color: #888 transparent;
 }
+
+.filter{
+  padding: 5px 15px;
+}
+
+.filter-options{
+}
