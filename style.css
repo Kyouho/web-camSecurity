@@ -908,3 +908,8 @@ body.control-page {
   color: red;
   text-align: center;
 }
+
+#logout{
+  background-color: #c25048;
+  color: white;
+}
