@@ -671,3 +671,193 @@ button:hover {
   padding: 5px 15px;
 }
 
+/*CONTROL CSS*/
+
+body.control-page {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(151,170,255,0.12), transparent 8%),
+              linear-gradient(135deg, #0a0720 0%, #2a2f45 40%, #97aaff 100%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.control-login-box {
+  width: 360px;
+  padding: 36px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow:
+    0 10px 30px rgba(3,8,23,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter: blur(8px) saturate(1.05);
+  -webkit-backdrop-filter: blur(8px) saturate(1.05);
+  color: #eef2ff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+
+.control-login-box .login-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  position: absolute;
+  right: 18px;
+  top: -22px;
+  background: linear-gradient(135deg,#97aaff,#3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(59,130,246,0.16);
+}
+
+
+.control-login-box h2 {
+  margin: 0 0 6px 0;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  text-shadow: 0 2px 6px rgba(2,6,23,0.5);
+}
+
+
+.control-login-box p.sub {
+  margin: 0 0 10px 0;
+  color: rgba(235,241,255,0.72);
+  font-size: 13px;
+}
+
+
+.control-input {
+  width: 100%;
+  padding: 12px 1px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.90));
+  color: #111827;
+  font-size: 15px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.2) inset;
+  outline: none;
+  transition: box-shadow .18s ease, transform .08s ease, border-color .15s ease;
+}
+
+
+.control-input::placeholder {
+  color: #8b9bb5;
+}
+
+
+.control-input:focus {
+  border-color: rgba(59,130,246,0.9);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.14);
+  transform: translateY(-1px);
+}
+
+
+.btn-login {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 15px;
+  color: #07142b;
+  background: linear-gradient(135deg, #97aaff 0%, #4c8bff 50%, #2456ff 100%);
+  box-shadow: 0 8px 22px rgba(36,86,255,0.18), 0 2px 6px rgba(2,6,23,0.25) inset;
+  transition: transform .14s ease, box-shadow .14s ease, filter .14s ease;
+}
+
+/* Hover / Active del botón */
+.btn-login:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(36,86,255,0.24);
+  filter: brightness(1.02);
+}
+.btn-login:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(36,86,255,0.12);
+}
+
+/* Contenedor del texto de ayuda / errores (interno) */
+#control-msg {
+  min-height: 20px;
+  margin-top: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.2;
+  color: #ffd6d6; 
+  display: block;
+  text-align: left;
+}
+
+
+#control-msg.ok {
+  color: #b6f7d6;
+}
+
+
+.control-login-box::after {
+  content: "";
+  height: 4px;
+  width: 64px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(151,170,255,0.95), rgba(36,86,255,0.95));
+  position: absolute;
+  display: none;
+  left: 36px;
+  bottom: 12px;
+  opacity: 0.9;
+}
+
+/* Responsividad ligera */
+@media (max-width: 420px) {
+  .control-login-box { width: 92%; padding: 28px; }
+  .control-login-box h2 { font-size: 18px; }
+  .btn-login { font-size: 15px; padding: 12px; }
+}
+
+
+@keyframes shakeX {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+.control-login-box.error {
+  animation: shakeX .42s ease;
+  box-shadow: 0 10px 30px rgba(255,40,70,0.06), inset 0 1px 0 rgba(255,40,70,0.03);
+  border-color: rgba(255,40,70,0.14);
+}
+
+
+.control-input.wrap-icon {
+  padding-left: 44px;
+  position: relative;
+}
+
+
+.control-login-box .icon-lock {
+  position: absolute;
+  left: 36px;
+  top: 56px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.9);
+  pointer-events: none;
+}
